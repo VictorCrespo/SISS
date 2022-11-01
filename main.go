@@ -2,10 +2,14 @@ package main
 
 import (
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/VictorCrespo/SISS/database"
 	"github.com/VictorCrespo/SISS/models"
+	"github.com/VictorCrespo/SISS/server"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 )
 
@@ -30,4 +34,9 @@ func main() {
 		log.Fatalf("Error creating connection database %v\n", err)
 	}
 	db.AutoMigrate(models.Usuarios{})
+
+	r := server.NewServer(&server.Router{
+		Router: mux.NewRouter(),
+	})
+	http.ListenAndServe(os.Getenv("PORT"), &r)
 }
