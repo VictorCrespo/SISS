@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/VictorCrespo/SISS/database"
+	"github.com/VictorCrespo/SISS/models"
 	"github.com/joho/godotenv"
 )
 
@@ -28,4 +29,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error creating connection database %v\n", err)
 	}
+	db.AutoMigrate(models.Usuarios{})
 }
