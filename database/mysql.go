@@ -38,7 +38,9 @@ func (c *Config) NewConection() (*gorm.DB, error) {
 		return nil, errors.New("database name is required")
 	}
 
-	return gorm.Open(mysql.Open(getDataSource(c)))
+	return gorm.Open(mysql.Open(getDataSource(c)), &gorm.Config{
+		DontSupportRenameColumn: false,
+	})
 }
 
 func getDataSource(c *Config) string {
