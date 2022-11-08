@@ -1,9 +1,9 @@
 package models
 
 type Usuario struct {
-	UsuarioID  uint   `gorm:"usuarioID"`
-	Usuario    string `gorm:"usuario"`
-	Contrasena string `gorm:"contrasena"`
+	Usuario_id uint   `gorm:"usuario_id"`
+	Usuario    string `gorm:"type:varchar(30)"`
+	Contrasena string `gorm:"type:varchar(16)"`
 	Activo     bool   `gorm:"activo"`
 }
 
