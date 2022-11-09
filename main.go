@@ -7,6 +7,7 @@ import (
 
 	"github.com/VictorCrespo/SISS/database"
 	"github.com/VictorCrespo/SISS/models"
+	"github.com/VictorCrespo/SISS/routes"
 	"github.com/VictorCrespo/SISS/server"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
@@ -38,5 +39,8 @@ func main() {
 	r := server.NewServer(&server.Router{
 		Router: mux.NewRouter(),
 	})
+
+	routes.RegisterRoutes(&r, db)
+
 	http.ListenAndServe(os.Getenv("PORT"), &r)
 }
