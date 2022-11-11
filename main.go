@@ -34,7 +34,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Error creating connection database %v\n", err)
 	}
-	db.AutoMigrate(models.Usuarios{})
+	db.AutoMigrate(models.Usuario{}, models.Carrera{}, models.Alumno{})
 
 	r := server.NewServer(&server.Router{
 		Router: mux.NewRouter(),
