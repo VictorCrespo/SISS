@@ -26,7 +26,7 @@ type Alumno struct {
 	Periodo               string  `gorm:"type:varchar(50); default:0"`
 	Semestre              int     `gorm:"type:tinyint; default:0"`
 	Usuario_id            Usuario `gorm:"foreignKey:Usuario_id; type:bigint UNSIGNED; NOT NULL"`
-	Porcentaje_creditos_A int     `gorm:"type:tinyint; default:0"`
+	Porcentaje_creditos_a int     `gorm:"type:tinyint; default:0"`
 }
 
 type Usuarios []Usuario
