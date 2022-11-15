@@ -128,3 +128,59 @@ type Modalidades []Modalidad
 type Actividades []Actividad
 type Programas []Programa
 type Alumnos_Programas []Alumno_Programa
+
+func (Usuario) TableName() string {
+	return "usuarios"
+}
+
+func (Rol) TableName() string {
+	return "roles"
+}
+
+func (Usuario_Rol) TableName() string {
+	return "usarios_roles"
+}
+
+func (Permiso) TableName() string {
+	return "permisos"
+}
+
+func (Rol_Permiso) TableName() string {
+	return "roles_permisos"
+}
+
+func (Carrera) TableName() string {
+	return "carreras"
+}
+
+func (Alumno) TableName() string {
+	return "alumnos"
+}
+
+func (Control_Expendiente) TableName() string {
+	return "control_expendientes"
+}
+
+func (Dependencia) TableName() string {
+	return "dependecias"
+}
+
+func (Tipo_Programa) TableName() string {
+	return "tipo_programas"
+}
+
+func (Modalidad) TableName() string {
+	return "modalidades"
+}
+
+func (Actividad) TableName() string {
+	return "activadades"
+}
+
+func (Programa) TableName() string {
+	return "programas"
+}
+
+func (Alumno_Programa) TableName() string {
+	return "alumnos_programas"
+}
