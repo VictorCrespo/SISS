@@ -129,6 +129,12 @@ func DeleteUsuario_Rol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			return
 		}
 
+		if ur.Rol_id.Rol_id == 0 {
+			w.WriteHeader(http.StatusNotFound)
+			w.Write([]byte("No se encontro el id"))
+			return
+		}
+
 		result = db.Delete(&ur)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)

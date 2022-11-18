@@ -123,13 +123,13 @@ func DeleteRol_Permiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			return
 		}
 
-		if rp.Permiso_id == 0 {
+		if rp.Permiso_id.Permiso_id == 0 {
 			w.WriteHeader(http.StatusNotFound)
 			w.Write([]byte("No se encontro el id"))
 			return
 		}
 
-		if rp.Rol_id == 0 {
+		if rp.Rol_id.Rol_id == 0 {
 			w.WriteHeader(http.StatusNotFound)
 			w.Write([]byte("No se encontro el id"))
 			return
