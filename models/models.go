@@ -17,7 +17,7 @@ type Rol struct {
 
 type Usuario_Rol struct {
 	Usuario_id Usuario `gorm:"Primary_Key; foreignKey:Usuario_id; type:bigint UNSIGNED; not null;" json:"usuario_id"`
-	Rol_id     Roles   `gorm:"Primary_Key; foreignKey:Rol_id; type:bigint UNSIGNED; not null; " json:"rol_id"`
+	Rol_id     Rol     `gorm:"Primary_Key; foreignKey:Rol_id; type:bigint UNSIGNED; not null; " json:"rol_id"`
 }
 
 type Permiso struct {
@@ -27,8 +27,8 @@ type Permiso struct {
 }
 
 type Rol_Permiso struct {
-	Rol_id     uint `gorm:"Primary_Key; foreignKey:Rol_id; type:bigint UNSIGNED; not null;" json:"rol_id"`
-	Permiso_id uint `gorm:"Primary_Key; foreignKey:Permiso_id; type:bigint UNSIGNED; not null; " json:"permiso_id"`
+	Rol_id     Rol     `gorm:"Primary_Key; foreignKey:Rol_id; type:bigint UNSIGNED; not null;" json:"rol_id"`
+	Permiso_id Permiso `gorm:"Primary_Key; foreignKey:Permiso_id; type:bigint UNSIGNED; not null; " json:"permiso_id"`
 }
 type Carrera struct {
 	Carrera_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
