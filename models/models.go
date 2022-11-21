@@ -2,38 +2,16 @@ package models
 
 import "time"
 
-type Usuario struct {
-	Usuario_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
-	Usuario    string `gorm:"type:varchar(30); default:''" json:"usuario"`
-	Contrasena string `gorm:"type:varchar(16); default:''" json:"contrasena"`
-	Activo     bool   `gorm:"type:tinyint; default:0" json:"activo"`
+type Actividad struct {
+	Actividad_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
+	Descripcion  string `gorm:"type:varchar(50); default:''" json:"descripcion"`
+	Activo       bool   `gorm:"type:boolean; default:0" json:"activo"`
 }
 
-type Rol struct {
-	Rol_id      uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
-	Descripcion string `gorm:"type:varchar(50); default:''" json:"descripcion"`
-	Activo      bool   `gorm:"type:boolean; default:0" json:"activo"`
-}
-
-type Usuario_Rol struct {
-	Usuario_id Usuario `gorm:"Primary_Key; foreignKey:Usuario_id; type:bigint UNSIGNED; not null;" json:"usuario_id"`
-	Rol_id     Rol     `gorm:"Primary_Key; foreignKey:Rol_id; type:bigint UNSIGNED; not null; " json:"rol_id"`
-}
-
-type Permiso struct {
-	Permiso_id  uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
-	Descripcion string `gorm:"type:varchar(50); default:''" json:"descripcion"`
-	Activo      bool   `gorm:"type:boolean; default:0" json:"activo"`
-}
-
-type Rol_Permiso struct {
-	Rol_id     Rol     `gorm:"Primary_Key; foreignKey:Rol_id; type:bigint UNSIGNED; not null;" json:"rol_id"`
-	Permiso_id Permiso `gorm:"Primary_Key; foreignKey:Permiso_id; type:bigint UNSIGNED; not null; " json:"permiso_id"`
-}
-type Carrera struct {
-	Carrera_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
-	Nombre     string `gorm:"type:varchar(50); default:''" json:"nombre"`
-	Activo     bool   `gorm:"type:boolean; default:0" json:"activo"`
+type Alumno_Programa struct {
+	Alumno_id   Alumno   `gorm:"Primary_Key; foreignKey:Alumno_id; type:bigint UNSIGNED; not null;" json:"alumno_id"`
+	Programa_id Programa `gorm:"Primary_Key; foreignKey:Programa_id; type:bigint UNSIGNED; not null;" json:"programa_id"`
+	Objetivo    string   `gorm:"type:varchar(50); default:''" json:"objetivo"`
 }
 
 type Alumno struct {
@@ -50,6 +28,12 @@ type Alumno struct {
 	Semestre              int     `gorm:"type:tinyint; default:0" json:"semestre"`
 	Usuario_id            Usuario `gorm:"foreignKey:Usuario_id; type:bigint UNSIGNED; NOT NULL" json:"usuario_id"`
 	Porcentaje_creditos_a int     `gorm:"type:tinyint; default:0" json:"porcentaje_creditos_a"`
+}
+
+type Carrera struct {
+	Carrera_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
+	Nombre     string `gorm:"type:varchar(50); default:''" json:"nombre"`
+	Activo     bool   `gorm:"type:boolean; default:0" json:"activo"`
 }
 
 type Control_Expendiente struct {
@@ -77,22 +61,22 @@ type Dependencia struct {
 	Activo         bool   `gorm:"type:boolean; default:0" json:"activo"`
 }
 
-type Tipo_Programa struct {
-	Tipo_programa_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
-	Nombre           string `gorm:"type:varchar(50); default:''" json:"nombre"`
-	Activo           bool   `gorm:"type:boolean; default:0" json:"activo"`
-}
-
 type Modalidad struct {
 	Modalidad_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
 	Nombre       string `gorm:"type:varchar(50); default:''" json:"nombre"`
 	Activo       bool   `gorm:"type:boolean; default:0" json:"activo"`
 }
 
-type Actividad struct {
-	Actividad_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
-	Descripcion  string `gorm:"type:varchar(50); default:''" json:"descripcion"`
-	Activo       bool   `gorm:"type:boolean; default:0" json:"activo"`
+type Permiso struct {
+	Permiso_id  uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
+	Descripcion string `gorm:"type:varchar(50); default:''" json:"descripcion"`
+	Activo      bool   `gorm:"type:boolean; default:0" json:"activo"`
+}
+
+type Rol struct {
+	Rol_id      uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
+	Descripcion string `gorm:"type:varchar(50); default:''" json:"descripcion"`
+	Activo      bool   `gorm:"type:boolean; default:0" json:"activo"`
 }
 
 type Programa struct {
@@ -108,53 +92,58 @@ type Programa struct {
 	Fecha_fin        time.Time     `gorm:"type:date; default:CURRENT_TIMESTAMP()" json:"fecha_fin"`
 }
 
-type Alumno_Programa struct {
-	Alumno_id   Alumno   `gorm:"Primary_Key; foreignKey:Alumno_id; type:bigint UNSIGNED; not null;" json:"alumno_id"`
-	Programa_id Programa `gorm:"Primary_Key; foreignKey:Programa_id; type:bigint UNSIGNED; not null;" json:"programa_id"`
-	Objetivo    string   `gorm:"type:varchar(50); default:''" json:"objetivo"`
+type Rol_Permiso struct {
+	Rol_id     Rol     `gorm:"Primary_Key; foreignKey:Rol_id; type:bigint UNSIGNED; not null;" json:"rol_id"`
+	Permiso_id Permiso `gorm:"Primary_Key; foreignKey:Permiso_id; type:bigint UNSIGNED; not null; " json:"permiso_id"`
 }
 
-type Usuarios []Usuario
-type Roles []Rol
-type Usuarios_Roles []Usuario_Rol
-type Permisos []Permiso
-type Roles_Permisos []Rol_Permiso
-type Carreras []Carrera
+type Tipo_Programa struct {
+	Tipo_programa_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
+	Nombre           string `gorm:"type:varchar(50); default:''" json:"nombre"`
+	Activo           bool   `gorm:"type:boolean; default:0" json:"activo"`
+}
+
+type Usuario_Rol struct {
+	Usuario_id Usuario `gorm:"Primary_Key; foreignKey:Usuario_id; type:bigint UNSIGNED; not null;" json:"usuario_id"`
+	Rol_id     Rol     `gorm:"Primary_Key; foreignKey:Rol_id; type:bigint UNSIGNED; not null; " json:"rol_id"`
+}
+
+type Usuario struct {
+	Usuario_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
+	Usuario    string `gorm:"type:varchar(30); default:''" json:"usuario"`
+	Contrasena string `gorm:"type:varchar(16); default:''" json:"contrasena"`
+	Activo     bool   `gorm:"type:tinyint; default:0" json:"activo"`
+}
+
+type Actividades []Actividad
+type Alumnos_Programas []Alumno_Programa
 type Alumnos []Alumno
+type Carreras []Carrera
 type Controles_Expedientes []Control_Expendiente
 type Depedencias []Dependencia
-type Tipos_Programas []Tipo_Programa
 type Modalidades []Modalidad
-type Actividades []Actividad
+type Permisos []Permiso
 type Programas []Programa
-type Alumnos_Programas []Alumno_Programa
+type Roles_Permisos []Rol_Permiso
+type Roles []Rol
+type Tipos_Programas []Tipo_Programa
+type Usuarios_Roles []Usuario_Rol
+type Usuarios []Usuario
 
-func (Usuario) TableName() string {
-	return "usuarios"
+func (Actividad) TableName() string {
+	return "activadades"
 }
 
-func (Rol) TableName() string {
-	return "roles"
-}
-
-func (Usuario_Rol) TableName() string {
-	return "usarios_roles"
-}
-
-func (Permiso) TableName() string {
-	return "permisos"
-}
-
-func (Rol_Permiso) TableName() string {
-	return "roles_permisos"
-}
-
-func (Carrera) TableName() string {
-	return "carreras"
+func (Alumno_Programa) TableName() string {
+	return "alumnos_programas"
 }
 
 func (Alumno) TableName() string {
 	return "alumnos"
+}
+
+func (Carrera) TableName() string {
+	return "carreras"
 }
 
 func (Control_Expendiente) TableName() string {
@@ -165,22 +154,34 @@ func (Dependencia) TableName() string {
 	return "dependecias"
 }
 
-func (Tipo_Programa) TableName() string {
-	return "tipo_programas"
-}
-
 func (Modalidad) TableName() string {
 	return "modalidades"
 }
 
-func (Actividad) TableName() string {
-	return "activadades"
+func (Permiso) TableName() string {
+	return "permisos"
 }
 
 func (Programa) TableName() string {
 	return "programas"
 }
 
-func (Alumno_Programa) TableName() string {
-	return "alumnos_programas"
+func (Rol_Permiso) TableName() string {
+	return "roles_permisos"
+}
+
+func (Rol) TableName() string {
+	return "roles"
+}
+
+func (Tipo_Programa) TableName() string {
+	return "tipo_programas"
+}
+
+func (Usuario_Rol) TableName() string {
+	return "usarios_roles"
+}
+
+func (Usuario) TableName() string {
+	return "usuarios"
 }
