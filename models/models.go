@@ -9,25 +9,29 @@ type Actividad struct {
 }
 
 type Alumno_Programa struct {
-	Alumno_id   Alumno   `gorm:"Primary_Key; foreignKey:Alumno_id; type:bigint UNSIGNED; not null;" json:"alumno_id"`
-	Programa_id Programa `gorm:"Primary_Key; foreignKey:Programa_id; type:bigint UNSIGNED; not null;" json:"programa_id"`
-	Objetivo    string   `gorm:"type:varchar(50); default:''" json:"objetivo"`
+	Alumno_id   uint   `gorm:"Primary_Key; autoIncrement:false" json:"alumno_id"`
+	Programa_id uint   `gorm:"Primary_Key; autoIncrement:false" json:"programa_id"`
+	Objetivo    string `gorm:"type:varchar(50); default:''" json:"objetivo"`
+	Alumno      Alumno
+	Programa    Programa
 }
 
 type Alumno struct {
-	Alumno_id             uint    `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
-	Nombrecompleto        string  `gorm:"type:varchar(50); default:''" json:"nombrecompleto"`
-	Sexo                  string  `gorm:"type:char(1); default:''" json:"sexo"`
-	Domicilio             string  `gorm:"type:varchar(50); default:''" json:"domicilio"`
-	Telefono              string  `gorm:"type:varchar(25); default:''" json:"telefono"`
-	Correo_electronico    string  `gorm:"type:varchar(50); default:''" json:"correo_electronico"`
-	Url_foto              string  `gorm:"type:varchar(50); default:''" json:"url_foto"`
-	Carrera_id            Carrera `gorm:"foreignKey:Carrera_id; type:bigint UNSIGNED; NOT NULL" json:"carrera_id"`
-	No_control            string  `gorm:"type:varchar(8); default:0" json:"no_control"`
-	Periodo               string  `gorm:"type:varchar(50); default:''" json:"periodo"`
-	Semestre              int     `gorm:"type:tinyint; default:0" json:"semestre"`
-	Usuario_id            Usuario `gorm:"foreignKey:Usuario_id; type:bigint UNSIGNED; NOT NULL" json:"usuario_id"`
-	Porcentaje_creditos_a int     `gorm:"type:tinyint; default:0" json:"porcentaje_creditos_a"`
+	Alumno_id             uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
+	Nombrecompleto        string `gorm:"type:varchar(50); default:''" json:"nombrecompleto"`
+	Sexo                  string `gorm:"type:char(1); default:''" json:"sexo"`
+	Domicilio             string `gorm:"type:varchar(50); default:''" json:"domicilio"`
+	Telefono              string `gorm:"type:varchar(25); default:''" json:"telefono"`
+	Correo_electronico    string `gorm:"type:varchar(50); default:''" json:"correo_electronico"`
+	Url_foto              string `gorm:"type:varchar(50); default:''" json:"url_foto"`
+	Carrera_id            uint   `gorm:"type:bigint UNSIGNED; NOT NULL" json:"carrera_id"`
+	No_control            string `gorm:"type:varchar(8); default:0" json:"no_control"`
+	Periodo               string `gorm:"type:varchar(50); default:''" json:"periodo"`
+	Semestre              int    `gorm:"type:tinyint; default:0" json:"semestre"`
+	Usuario_id            uint   `gorm:"type:bigint UNSIGNED; NOT NULL" json:"usuario_id"`
+	Carrera               Carrera
+	Usuario               Usuario
+	Porcentaje_creditos_a int `gorm:"type:tinyint; default:0" json:"porcentaje_creditos_a"`
 }
 
 type Carrera struct {
@@ -49,7 +53,8 @@ type Control_Expendiente struct {
 	Carta_terminacion      bool   `gorm:"type:boolean; default:0" json:"carta_terminacion"`
 	Constancia_oficial     bool   `gorm:"type:boolean; default:0" json:"constancia_oficial"`
 	Observaciones          string `gorm:"type:varchar(100); default:''" json:"observaciones"`
-	Alumno_id              Alumno `gorm:"foreignKey:Alumno_id; type:bigint UNSIGNED; NOT NULL" json:"alumno_id"`
+	Alumno_id              uint   `gorm:"type:bigint UNSIGNED; NOT NULL" json:"alumno_id"`
+	Alumno                 Alumno
 }
 
 type Dependencia struct {
@@ -80,21 +85,27 @@ type Rol struct {
 }
 
 type Programa struct {
-	Programa_id      uint          `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
-	Nombre           string        `gorm:"type:varchar(50); default:''" json:"nombre"`
-	Capacidad        int           `gorm:"type:int; default:0" json:"capacidad"`
-	Activo           bool          `gorm:"type:boolean; default:0" json:"activo"`
-	Dependencia_id   Dependencia   `gorm:"foreignKey:Dependencia_id; type:bigint UNSIGNED; NOT NULL" json:"dependencia_id"`
-	Tipo_programa_id Tipo_Programa `gorm:"foreignKey:Tipo_programa_id; type:bigint UNSIGNED; NOT NULL" json:"tipo_programa_id"`
-	Modalidad_id     Modalidad     `gorm:"foreignKey:Modalidad_id; type:bigint UNSIGNED; NOT NULL" json:"modalidad_id"`
-	Actividad_id     Actividad     `gorm:"foreignKey:Actividad_id; type:bigint UNSIGNED; NOT NULL" json:"actividad_id"`
-	Fecha_inicio     time.Time     `gorm:"type:date; default:CURRENT_TIMESTAMP()" json:"fecha_inicio"`
-	Fecha_fin        time.Time     `gorm:"type:date; default:CURRENT_TIMESTAMP()" json:"fecha_fin"`
+	Programa_id      uint      `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
+	Nombre           string    `gorm:"type:varchar(50); default:''" json:"nombre"`
+	Capacidad        int       `gorm:"type:int; default:0" json:"capacidad"`
+	Activo           bool      `gorm:"type:boolean; default:0" json:"activo"`
+	Dependencia_id   uint      `gorm:"type:bigint UNSIGNED; NOT NULL" json:"dependencia_id"`
+	Tipo_programa_id uint      `gorm:"type:bigint UNSIGNED; NOT NULL" json:"tipo_programa_id"`
+	Modalidad_id     uint      `gorm:"type:bigint UNSIGNED; NOT NULL" json:"modalidad_id"`
+	Actividad_id     uint      `gorm:"type:bigint UNSIGNED; NOT NULL" json:"actividad_id"`
+	Fecha_inicio     time.Time `gorm:"type:date; default:CURRENT_TIMESTAMP()" json:"fecha_inicio"`
+	Fecha_fin        time.Time `gorm:"type:date; default:CURRENT_TIMESTAMP()" json:"fecha_fin"`
+	Dependencia      Dependencia
+	Tipo_Programa    Tipo_Programa
+	Modalidad        Modalidad
+	Actividad        Actividad
 }
 
 type Rol_Permiso struct {
-	Rol_id     Rol     `gorm:"Primary_Key; foreignKey:Rol_id; type:bigint UNSIGNED; not null;" json:"rol_id"`
-	Permiso_id Permiso `gorm:"Primary_Key; foreignKey:Permiso_id; type:bigint UNSIGNED; not null; " json:"permiso_id"`
+	Rol_id     uint `gorm:"Primary_Key; autoIncrement:false" json:"rol_id"`
+	Permiso_id uint `gorm:"Primary_Key; autoIncrement:false" json:"permiso_id"`
+	Rol        Rol
+	Permiso    Permiso
 }
 
 type Tipo_Programa struct {
@@ -104,8 +115,10 @@ type Tipo_Programa struct {
 }
 
 type Usuario_Rol struct {
-	Usuario_id Usuario `gorm:"Primary_Key; foreignKey:Usuario_id; type:bigint UNSIGNED; not null;" json:"usuario_id"`
-	Rol_id     Rol     `gorm:"Primary_Key; foreignKey:Rol_id; type:bigint UNSIGNED; not null; " json:"rol_id"`
+	Usuario_id uint `gorm:"Primary_Key; autoIncrement:false" json:"usuario_id"`
+	Rol_id     uint `gorm:"Primary_Key; autoIncrement:false" json:"rol_id"`
+	Usuario    Usuario
+	Rol        Rol
 }
 
 type Usuario struct {
