@@ -123,13 +123,13 @@ func DeleteAlumnos_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			return
 		}
 
-		if ap.Alumno_id.Alumno_id == 0 {
+		if ap.Alumno_id == 0 {
 			w.WriteHeader(http.StatusNotFound)
 			w.Write([]byte("No se encontro el id"))
 			return
 		}
 
-		if ap.Programa_id.Programa_id == 0 {
+		if ap.Programa_id == 0 {
 			w.WriteHeader(http.StatusNotFound)
 			w.Write([]byte("No se encontro el id"))
 			return
