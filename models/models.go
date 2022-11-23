@@ -93,8 +93,8 @@ type Programa struct {
 	Tipo_programa_id uint      `gorm:"type:bigint UNSIGNED; NOT NULL" json:"tipo_programa_id"`
 	Modalidad_id     uint      `gorm:"type:bigint UNSIGNED; NOT NULL" json:"modalidad_id"`
 	Actividad_id     uint      `gorm:"type:bigint UNSIGNED; NOT NULL" json:"actividad_id"`
-	Fecha_inicio     time.Time `gorm:"type:date; default:CURRENT_TIMESTAMP()" json:"fecha_inicio"`
-	Fecha_fin        time.Time `gorm:"type:date; default:CURRENT_TIMESTAMP()" json:"fecha_fin"`
+	Fecha_inicio     time.Time `gorm:"type:date;" json:"fecha_inicio"`
+	Fecha_fin        time.Time `gorm:"type:date;" json:"fecha_fin"`
 	Dependencia      Dependencia
 	Tipo_Programa    Tipo_Programa
 	Modalidad        Modalidad
