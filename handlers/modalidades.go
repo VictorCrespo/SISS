@@ -60,7 +60,7 @@ func CreateModalidad(db *gorm.DB) http.HandlerFunc {
 		w.Header().Set("content-type", "application/json")
 		w.WriteHeader(http.StatusCreated)
 
-		var m models.Usuario
+		var m models.Modalidad
 		err := json.NewDecoder(r.Body).Decode(&m)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -81,7 +81,7 @@ func UpdateModalidad(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("content-type", "application/json")
 
-		var m models.Usuario
+		var m models.Modalidad
 		params := mux.Vars(r)
 
 		result := db.First(&m, params["id"])
