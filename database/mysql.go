@@ -42,6 +42,6 @@ func (c *Config) NewConection() (*gorm.DB, error) {
 }
 
 func getDataSource(c *Config) string {
-	datasource := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", c.Username, c.Password, c.Hostname, c.Port, c.DBname)
+	datasource := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=True", c.Username, c.Password, c.Hostname, c.Port, c.DBname)
 	return datasource
 }
