@@ -14,10 +14,10 @@ func RegisterRoutes(r *mux.Router, db *gorm.DB) {
 	r.HandleFunc("/actividades/{id}", handlers.UpdateActividad(r, db)).Methods("PUT")
 
 	r.HandleFunc("/alumnos/programas", handlers.GetAlumnos_Programas(db)).Methods("GET")
-	r.HandleFunc("/alumnos/programas/{id}", handlers.GetAlumnos_programa(r, db)).Methods("GET")
+	r.HandleFunc("/alumnos/{alumno_id}/programas/{programa_id}", handlers.GetAlumnos_programa(r, db)).Methods("GET")
 	r.HandleFunc("/alumnos/programas", handlers.CreateAlumnos_programa(db)).Methods("POST")
-	r.HandleFunc("/alumnos/programas/{id}", handlers.DeleteAlumnos_Programa(r, db)).Methods("DELETE")
-	r.HandleFunc("/alumnos/programas/{id}", handlers.UpdateAlumnos_Programa(r, db)).Methods("PUT")
+	r.HandleFunc("/alumnos/{alumno_id}/programas/{programa_id}", handlers.DeleteAlumnos_Programa(r, db)).Methods("DELETE")
+	r.HandleFunc("/alumnos/{alumno_id}/programas/{id}", handlers.UpdateAlumnos_Programa(r, db)).Methods("PUT")
 
 	r.HandleFunc("/alumnos", handlers.GetAlumnos(db)).Methods("GET")
 	r.HandleFunc("/alumnos/{id}", handlers.GetAlumno(r, db)).Methods("GET")
@@ -62,10 +62,10 @@ func RegisterRoutes(r *mux.Router, db *gorm.DB) {
 	r.HandleFunc("/programas/{id}", handlers.UpdatePrograma(r, db)).Methods("PUT")
 
 	r.HandleFunc("/roles/permisos", handlers.GetRoles_Permisos(db)).Methods("GET")
-	r.HandleFunc("/roles/permisos/{id}", handlers.GetRol_Permiso(r, db)).Methods("GET")
+	r.HandleFunc("/roles/{rol_id}/permisos/{permiso_id}", handlers.GetRol_Permiso(r, db)).Methods("GET")
 	r.HandleFunc("/roles/permisos", handlers.CreateRol_Permiso(db)).Methods("POST")
-	r.HandleFunc("/roles/permisos/{id}", handlers.DeleteRol_Permiso(r, db)).Methods("DELETE")
-	r.HandleFunc("/roles/permisos/{id}", handlers.UpdateRol_Permiso(r, db)).Methods("PUT")
+	r.HandleFunc("/roles/{rol_id}/permisos/{permiso_id}", handlers.DeleteRol_Permiso(r, db)).Methods("DELETE")
+	r.HandleFunc("/roles/{rol_id}/permisos/{permiso_id}", handlers.UpdateRol_Permiso(r, db)).Methods("PUT")
 
 	r.HandleFunc("/roles", handlers.GetRoles(db)).Methods("GET")
 	r.HandleFunc("/roles/{id}", handlers.GetRol(r, db)).Methods("GET")
@@ -80,10 +80,10 @@ func RegisterRoutes(r *mux.Router, db *gorm.DB) {
 	r.HandleFunc("/tipo_programas/{id}", handlers.UpdateTipo_Programa(r, db)).Methods("PUT")
 
 	r.HandleFunc("/usuarios/roles", handlers.GetUsuarios_Roles(db)).Methods("GET")
-	r.HandleFunc("/usuarios/roles/{id}", handlers.GetUsuario_Rol(r, db)).Methods("GET")
+	r.HandleFunc("/usuarios/{usuario_id}/roles/{rol_id}", handlers.GetUsuario_Rol(r, db)).Methods("GET")
 	r.HandleFunc("/usuarios/roles", handlers.CreateUsuario_Rol(db)).Methods("POST")
-	r.HandleFunc("/usuarios/roles/{id}", handlers.DeleteUsuario_Rol(r, db)).Methods("DELETE")
-	r.HandleFunc("/usuarios/roles/{id}", handlers.UpdateUsuario_Rol(r, db)).Methods("PUT")
+	r.HandleFunc("/usuarios/{usuario_id}/roles/{rol_id}", handlers.DeleteUsuario_Rol(r, db)).Methods("DELETE")
+	r.HandleFunc("/usuarios/{usuario_id}/roles/{rol_id}", handlers.UpdateUsuario_Rol(r, db)).Methods("PUT")
 
 	r.HandleFunc("/usuarios", handlers.GetUsuarios(db)).Methods("GET")
 	r.HandleFunc("/usuarios/{id}", handlers.GetUsuario(r, db)).Methods("GET")
