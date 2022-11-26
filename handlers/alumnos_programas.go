@@ -39,7 +39,7 @@ func GetAlumnos_programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 		var ap models.Alumno_Programa
 		params := mux.Vars(r)
 
-		result := db.First(&ap, params["id"])
+		result := db.First(&ap, "alumno_id = ? AND programa_id = ?", params["alumno_id"], params["programa_id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
@@ -81,24 +81,24 @@ func UpdateAlumnos_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("content-type", "application/json")
 
-		var ap models.Alumno_Programa
+		var ap, apaux models.Alumno_Programa
 		params := mux.Vars(r)
 
-		result := db.First(&ap, params["id"])
+		result := db.First(&ap, "alumno_id = ? AND programa_id = ?", params["alumno_id"], params["programa_id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
 
-		err := json.NewDecoder(r.Body).Decode(&ap)
+		err := json.NewDecoder(r.Body).Decode(&apaux)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(err.Error()))
 			return
 		}
 
-		result = db.Save(&ap)
+		result = db.Model(&ap).Updates(apaux)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
@@ -116,7 +116,7 @@ func DeleteAlumnos_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 		var ap models.Alumno_Programa
 
 		params := mux.Vars(r)
-		result := db.First(&ap, params["id"])
+		result := db.First(&ap, "alumno_id = ? AND programa_id = ?", params["alumno_id"], params["programa_id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))

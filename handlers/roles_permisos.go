@@ -39,7 +39,7 @@ func GetRol_Permiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 		var rp models.Rol_Permiso
 		params := mux.Vars(r)
 
-		result := db.First(&rp, params["id"])
+		result := db.First(&rp, "rol_id = ? AND permiso_id = ?", params["rol_id"], params["permiso_id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
@@ -81,24 +81,24 @@ func UpdateRol_Permiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("content-type", "application/json")
 
-		var rp models.Rol_Permiso
+		var rp, rpaux models.Rol_Permiso
 		params := mux.Vars(r)
 
-		result := db.First(&rp, params["id"])
+		result := db.First(&rp, "rol_id = ? AND permiso_id = ?", params["rol_id"], params["permiso_id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
 
-		err := json.NewDecoder(r.Body).Decode(&rp)
+		err := json.NewDecoder(r.Body).Decode(&rpaux)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(err.Error()))
 			return
 		}
 
-		result = db.Save(&rp)
+		result = db.Model(&rp).Updates(rpaux)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
