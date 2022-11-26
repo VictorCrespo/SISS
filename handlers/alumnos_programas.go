@@ -39,7 +39,7 @@ func GetAlumnos_programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 		var ap models.Alumno_Programa
 		params := mux.Vars(r)
 
-		result := db.First(&ap, params["id"])
+		result := db.First(&ap, "alumno_id = ? AND programa_id = ?", params["alumno_id"], params["programa_id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
@@ -84,7 +84,7 @@ func UpdateAlumnos_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 		var ap models.Alumno_Programa
 		params := mux.Vars(r)
 
-		result := db.First(&ap, params["id"])
+		result := db.First(&ap, "alumno_id = ? AND programa_id = ?", params["alumno_id"], params["programa_id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
@@ -116,7 +116,7 @@ func DeleteAlumnos_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 		var ap models.Alumno_Programa
 
 		params := mux.Vars(r)
-		result := db.First(&ap, params["id"])
+		result := db.First(&ap, "alumno_id = ? AND programa_id = ?", params["alumno_id"], params["programa_id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
