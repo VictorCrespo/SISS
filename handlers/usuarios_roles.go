@@ -39,7 +39,7 @@ func GetUsuario_Rol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 		var ur models.Usuario_Rol
 		params := mux.Vars(r)
 
-		result := db.First(&ur, params["id"])
+		result := db.First(&ur, "usuario_id = ? AND rol_id = ?", params["usuario_id"], params["rol_id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
@@ -81,10 +81,10 @@ func UpdateUsuario_Rol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("content-type", "application/json")
 
-		var ur models.Usuario_Rol
+		var ur, uraux models.Usuario_Rol
 		params := mux.Vars(r)
 
-		result := db.First(&ur, params["id"])
+		result := db.First(&ur, "usuario_id = ? AND rol_id = ?", params["usuario_id"], params["rol_id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
@@ -98,7 +98,7 @@ func UpdateUsuario_Rol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			return
 		}
 
-		result = db.Save(&ur)
+		result = db.Model(&ur).Updates(uraux)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
