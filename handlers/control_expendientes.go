@@ -14,7 +14,7 @@ func GetControl_Expedientes(db *gorm.DB) http.HandlerFunc {
 		w.Header().Set("content-type", "application/json")
 		w.WriteHeader(http.StatusOK)
 
-		var u models.Usuarios
+		var u models.Controles_Expedientes
 		result := db.Find(&u)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -36,7 +36,7 @@ func GetControl_Expediente(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 		w.Header().Set("content-type", "application/json")
 		w.WriteHeader(http.StatusOK)
 
-		var u models.Usuario
+		var u models.Control_Expendiente
 		params := mux.Vars(r)
 
 		result := db.First(&u, params["id"])
@@ -60,7 +60,7 @@ func CreateControl_Expediente(db *gorm.DB) http.HandlerFunc {
 		w.Header().Set("content-type", "application/json")
 		w.WriteHeader(http.StatusCreated)
 
-		var u models.Usuario
+		var u models.Control_Expendiente
 		err := json.NewDecoder(r.Body).Decode(&u)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
