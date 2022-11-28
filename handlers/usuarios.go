@@ -6,6 +6,7 @@ import (
 
 	"github.com/VictorCrespo/SISS/models"
 	"github.com/gorilla/mux"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -61,12 +62,29 @@ func CreateUsuario(db *gorm.DB) http.HandlerFunc {
 		w.WriteHeader(http.StatusCreated)
 
 		var u models.Usuario
+		var enc []byte
 		err := json.NewDecoder(r.Body).Decode(&u)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(err.Error()))
 			return
 		}
+
+		enc, err = bcrypt.GenerateFromPassword([]byte(u.Usuario), bcrypt.DefaultCost)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte(err.Error()))
+			return
+		}
+		u.Usuario = string(enc)
+
+		enc, err = bcrypt.GenerateFromPassword([]byte(u.Contrasena), bcrypt.DefaultCost)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte(err.Error()))
+			return
+		}
+		u.Contrasena = string(enc)
 
 		result := db.Create(&u)
 		if result.Error != nil {
