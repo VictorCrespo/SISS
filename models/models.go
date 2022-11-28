@@ -123,8 +123,8 @@ type Usuario_Rol struct {
 
 type Usuario struct {
 	Usuario_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
-	Usuario    string `gorm:"type:varchar(30); default:''" json:"usuario"`
-	Contrasena string `gorm:"type:varchar(16); default:''" json:"contrasena"`
+	Usuario    string `gorm:"type:varchar(200); default:''" json:"usuario"`
+	Contrasena string `gorm:"type:varchar(200); default:''" json:"contrasena"`
 	Activo     bool   `gorm:"type:tinyint; default:0" json:"activo"`
 }
 
