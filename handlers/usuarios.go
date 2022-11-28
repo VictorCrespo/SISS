@@ -92,7 +92,6 @@ func UpdateUsuario(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 		w.Header().Set("content-type", "application/json")
 
 		var u models.Usuario
-		var enc []byte
 		params := mux.Vars(r)
 
 		result := db.First(&u, params["id"])
@@ -108,14 +107,6 @@ func UpdateUsuario(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(err.Error()))
 			return
 		}
-
-		enc, err = bcrypt.GenerateFromPassword([]byte(u.Contrasena), bcrypt.DefaultCost)
-		if err != nil {
-			w.WriteHeader(http.StatusBadRequest)
-			w.Write([]byte(err.Error()))
-			return
-		}
-		u.Contrasena = string(enc)
 
 		result = db.Save(&u)
 		if result.Error != nil {
