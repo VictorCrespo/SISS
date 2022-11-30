@@ -71,7 +71,7 @@ func Login(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 		w.WriteHeader(http.StatusOK)
 
 		var u models.Usuario
-		params := mux.Vars(r)
+		var nombre, contrasena string
 
 		err := json.NewDecoder(r.Body).Decode(&u)
 		if err != nil {
@@ -80,22 +80,28 @@ func Login(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			return
 		}
 
-		result := db.First(&u, "usuario = ?", params["usuario"])
+		nombre = u.Nombre
+		contrasena = u.Contrasena
+
+		result := db.First(&u, "nombre = ?", u.Nombre)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
 
-		err = bcrypt.CompareHashAndPassword([]byte(u.Contrasena), []byte(params["contrasena"]))
+		err = bcrypt.CompareHashAndPassword([]byte(u.Contrasena), []byte(contrasena))
 
-		if u.Usuario != params["usuario"] || err != nil {
+		if u.Nombre != nombre || err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte("invalid username or password"))
 			return
 		}
 
+		u.Usuario_id = 0
 		u.Contrasena = ""
+		u.Activo = false
+
 		token := GenerateJWT(u)
 		jsontoken := models.ResponseToken{Token: token}
 		jsonresult, err := json.Marshal(jsontoken)
