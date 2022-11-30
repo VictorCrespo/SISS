@@ -94,5 +94,5 @@ func RegisterRoutes(r *mux.Router, db *gorm.DB) {
 	r.HandleFunc("/usuarios/{id}", handlers.DeleteUsuario(r, db)).Methods("DELETE")
 	r.HandleFunc("/usuarios/{id}", handlers.UpdateUsuario(r, db)).Methods("PUT")
 
-	r.HandleFunc("/validatetoken", authentication.Validatetoken).Methods("POST")
+	r.HandleFunc("/validatetoken", authentication.Validatetoken()).Methods("POST")
 }
