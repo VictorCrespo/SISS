@@ -3,9 +3,9 @@ package authentication
 import (
 	"crypto/rsa"
 	"encoding/json"
-	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/VictorCrespo/SISS/models"
@@ -23,13 +23,13 @@ var (
 
 func init() {
 
-	publicbytes, err := ioutil.ReadFile("./public.rsa.pub")
+	publicbytes, err := os.ReadFile("./public.rsa.pub")
 	if err != nil {
 		log.Fatal("error reading public key")
 		return
 	}
 
-	privatebytes, err := ioutil.ReadFile("./private.rsa")
+	privatebytes, err := os.ReadFile("./private.rsa")
 	if err != nil {
 		log.Fatal("error reading private key")
 		return
