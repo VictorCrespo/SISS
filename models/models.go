@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"github.com/golang-jwt/jwt/v4"
+)
 
 type Actividad struct {
 	Actividad_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
@@ -38,6 +42,11 @@ type Carrera struct {
 	Carrera_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
 	Nombre     string `gorm:"type:varchar(50); default:''" json:"nombre"`
 	Activo     bool   `gorm:"type:boolean; default:0" json:"activo"`
+}
+
+type Claim struct {
+	Usuario `json:"usuario"`
+	jwt.RegisteredClaims
 }
 
 type Control_Expendiente struct {
@@ -101,6 +110,10 @@ type Programa struct {
 	Actividad        Actividad
 }
 
+type ResponseToken struct {
+	Token string `json:"token"`
+}
+
 type Rol_Permiso struct {
 	Rol_id     uint `gorm:"Primary_Key; autoIncrement:false" json:"rol_id"`
 	Permiso_id uint `gorm:"Primary_Key; autoIncrement:false" json:"permiso_id"`
@@ -124,7 +137,7 @@ type Usuario_Rol struct {
 type Usuario struct {
 	Usuario_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
 	Usuario    string `gorm:"type:varchar(200); default:''" json:"usuario"`
-	Contrasena string `gorm:"type:varchar(200); default:''" json:"contrasena"`
+	Contrasena string `gorm:"type:varchar(200); default:''" json:"contrasena,omitempty"`
 	Activo     bool   `gorm:"type:tinyint; default:0" json:"activo"`
 }
 
