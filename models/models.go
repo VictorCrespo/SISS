@@ -135,10 +135,10 @@ type Usuario_Rol struct {
 }
 
 type Usuario struct {
-	Usuario_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id"`
-	Usuario    string `gorm:"type:varchar(200); default:''" json:"usuario"`
+	Usuario_id uint   `gorm:"Primary_Key; type:bigint UNSIGNED; not null; auto_increment" json:"id,omitempty"`
+	Nombre     string `gorm:"type:varchar(30); default:''" json:"nombre"`
 	Contrasena string `gorm:"type:varchar(200); default:''" json:"contrasena,omitempty"`
-	Activo     bool   `gorm:"type:tinyint; default:0" json:"activo"`
+	Activo     bool   `gorm:"type:tinyint; default:0" json:"activo,omitempty"`
 }
 
 type Actividades []Actividad
