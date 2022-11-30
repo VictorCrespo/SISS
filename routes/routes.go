@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"github.com/VictorCrespo/SISS/authentication"
 	"github.com/VictorCrespo/SISS/handlers"
 	"github.com/gorilla/mux"
 	"gorm.io/gorm"
@@ -42,6 +43,8 @@ func RegisterRoutes(r *mux.Router, db *gorm.DB) {
 	r.HandleFunc("/dependencias", handlers.CreateDependecia(db)).Methods("POST")
 	r.HandleFunc("/dependencias/{id}", handlers.DeleteDependencia(r, db)).Methods("DELETE")
 	r.HandleFunc("/dependencias/{id}", handlers.UpdateDependecia(r, db)).Methods("PUT")
+
+	r.HandleFunc("/login", authentication.Login(r, db)).Methods("POST")
 
 	r.HandleFunc("/modalidades", handlers.GetModalidades(db)).Methods("GET")
 	r.HandleFunc("/modalidades/{id}", handlers.GetModalidad(r, db)).Methods("GET")
@@ -90,4 +93,6 @@ func RegisterRoutes(r *mux.Router, db *gorm.DB) {
 	r.HandleFunc("/usuarios", handlers.CreateUsuario(db)).Methods("POST")
 	r.HandleFunc("/usuarios/{id}", handlers.DeleteUsuario(r, db)).Methods("DELETE")
 	r.HandleFunc("/usuarios/{id}", handlers.UpdateUsuario(r, db)).Methods("PUT")
+
+	r.HandleFunc("/validatetoken", authentication.Validatetoken).Methods("POST")
 }
