@@ -3,16 +3,15 @@ package authentication
 import (
 	"crypto/rsa"
 	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/VictorCrespo/SISS/models"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/golang-jwt/jwt/v4/request"
 	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -23,13 +22,18 @@ var (
 )
 
 func init() {
-	err := godotenv.Load(".env")
+
+	publicbytes, err := ioutil.ReadFile("./public.rsa.pub")
 	if err != nil {
-		log.Fatal("error loading .env file")
+		log.Fatal("error reading public key")
+		return
 	}
 
-	publicbytes := []byte(os.Getenv("PUBLIC_KEY"))
-	privatebytes := []byte(os.Getenv("PRIVATE_KEY"))
+	privatebytes, err := ioutil.ReadFile("./private.rsa")
+	if err != nil {
+		log.Fatal("error reading private key")
+		return
+	}
 
 	PublicKey, err = jwt.ParseRSAPublicKeyFromPEM(publicbytes)
 	if err != nil {
