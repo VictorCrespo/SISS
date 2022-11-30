@@ -105,7 +105,7 @@ func Login(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	}
 }
 
-func Validatetoken(db *gorm.DB) http.HandlerFunc {
+func Validatetoken() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
