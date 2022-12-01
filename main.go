@@ -12,16 +12,14 @@ import (
 )
 
 func init() {
+	server.LoadEnvVariables()
 	database.ConnectDB()
 	database.SyncDatabase()
 }
 
 func main() {
 
-	r := server.NewServer(&server.Router{
-		Router: mux.NewRouter(),
-	})
-
-	routes.RegisterRoutes(&r, database.DB)
-	http.ListenAndServe(os.Getenv("PORT"), &r)
+	r := mux.NewRouter()
+	routes.RegisterRoutes(r, database.DB)
+	http.ListenAndServe(os.Getenv("PORT"), r)
 }
