@@ -21,15 +21,15 @@ var (
 	PrivateKey *rsa.PrivateKey
 )
 
-func init() {
+func KeyReading() {
 
-	publicbytes, err := os.ReadFile("./public.rsa.pub")
+	publicbytes, err := os.ReadFile("./rsa_public.pem")
 	if err != nil {
 		log.Fatal("error reading public key")
 		return
 	}
 
-	privatebytes, err := os.ReadFile("./private.rsa")
+	privatebytes, err := os.ReadFile("./rsa_private.pem")
 	if err != nil {
 		log.Fatal("error reading private key")
 		return
