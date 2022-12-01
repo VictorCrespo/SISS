@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -49,11 +48,7 @@ func getDataSource(c config) string {
 }
 
 func ConnectDB() {
-
-	err := godotenv.Load(".env")
-	if err != nil {
-		panic("error loading .env file")
-	}
+	var err error
 
 	c := config{
 		Username: os.Getenv("DB_USERNAME"),
