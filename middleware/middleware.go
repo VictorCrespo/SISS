@@ -12,7 +12,6 @@ import (
 func AuthJwtToken(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("content-type", "application/json")
-		//w.WriteHeader(http.StatusOK)
 
 		token, err := request.ParseFromRequest(r, request.OAuth2Extractor, func(t *jwt.Token) (interface{}, error) {
 			return authentication.PublicKey, nil
