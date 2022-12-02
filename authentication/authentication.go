@@ -56,12 +56,12 @@ func GenerateJWT(usuario models.Usuario) string {
 		},
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
-	result, err := token.SignedString(PrivateKey)
+	token, err := jwt.NewWithClaims(jwt.SigningMethodRS256, claims).SignedString(PrivateKey)
 	if err != nil {
 		log.Fatal("failed to sign token")
 	}
-	return result
+
+	return token
 }
 
 func Login(r *mux.Router, db *gorm.DB) http.HandlerFunc {
