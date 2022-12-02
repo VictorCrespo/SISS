@@ -11,18 +11,17 @@ import (
 
 func GetControl_Expedientes(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
-		var u models.Controles_Expedientes
-		result := db.Find(&u)
+		var ce models.Controles_Expedientes
+
+		result := db.Find(&ce)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
 
-		err := json.NewEncoder(w).Encode(u)
+		err := json.NewEncoder(w).Encode(ce)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(err.Error()))
@@ -33,20 +32,18 @@ func GetControl_Expedientes(db *gorm.DB) http.HandlerFunc {
 
 func GetControl_Expediente(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
-		var u models.Control_Expendiente
+		var ce models.Control_Expendiente
 		params := mux.Vars(r)
 
-		result := db.First(&u, params["id"])
+		result := db.First(&ce, params["id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
 
-		err := json.NewEncoder(w).Encode(u)
+		err := json.NewEncoder(w).Encode(ce)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(err.Error()))
@@ -57,18 +54,19 @@ func GetControl_Expediente(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 
 func CreateControl_Expediente(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
+
 		w.WriteHeader(http.StatusCreated)
 
-		var u models.Control_Expendiente
-		err := json.NewDecoder(r.Body).Decode(&u)
+		var ce models.Control_Expendiente
+
+		err := json.NewDecoder(r.Body).Decode(&ce)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(err.Error()))
 			return
 		}
 
-		result := db.Create(&u)
+		result := db.Create(&ce)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte(result.Error.Error()))
@@ -79,7 +77,6 @@ func CreateControl_Expediente(db *gorm.DB) http.HandlerFunc {
 
 func UpdateControl_Expediente(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var ce models.Control_Expendiente
 		params := mux.Vars(r)
@@ -104,18 +101,15 @@ func UpdateControl_Expediente(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }
 
 func DeleteControl_Expediente(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var ce models.Control_Expendiente
-
 		params := mux.Vars(r)
+
 		result := db.First(&ce, params["id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -135,7 +129,5 @@ func DeleteControl_Expediente(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }

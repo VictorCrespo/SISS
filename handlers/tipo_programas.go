@@ -11,10 +11,9 @@ import (
 
 func GetTipo_Programas(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var tp models.Tipos_Programas
+
 		result := db.Find(&tp)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -33,8 +32,6 @@ func GetTipo_Programas(db *gorm.DB) http.HandlerFunc {
 
 func GetTipo_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var tp models.Tipo_Programa
 		params := mux.Vars(r)
@@ -57,7 +54,7 @@ func GetTipo_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 
 func CreateTipo_Programa(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
+
 		w.WriteHeader(http.StatusCreated)
 
 		var tp models.Tipo_Programa
@@ -79,7 +76,6 @@ func CreateTipo_Programa(db *gorm.DB) http.HandlerFunc {
 
 func UpdateTipo_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var tp models.Tipo_Programa
 		params := mux.Vars(r)
@@ -104,18 +100,15 @@ func UpdateTipo_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }
 
 func DeleteTipo_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var tp models.Tipo_Programa
-
 		params := mux.Vars(r)
+
 		result := db.First(&tp, params["id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -135,7 +128,5 @@ func DeleteTipo_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }

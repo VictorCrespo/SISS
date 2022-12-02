@@ -11,10 +11,9 @@ import (
 
 func GetModalidades(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var m models.Modalidades
+
 		result := db.Find(&m)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -33,8 +32,6 @@ func GetModalidades(db *gorm.DB) http.HandlerFunc {
 
 func GetModalidad(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var m models.Modalidad
 		params := mux.Vars(r)
@@ -57,10 +54,11 @@ func GetModalidad(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 
 func CreateModalidad(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
+
 		w.WriteHeader(http.StatusCreated)
 
 		var m models.Modalidad
+
 		err := json.NewDecoder(r.Body).Decode(&m)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -79,7 +77,6 @@ func CreateModalidad(db *gorm.DB) http.HandlerFunc {
 
 func UpdateModalidad(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var m models.Modalidad
 		params := mux.Vars(r)
@@ -104,18 +101,15 @@ func UpdateModalidad(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }
 
 func DeleteModalidad(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var m models.Modalidad
-
 		params := mux.Vars(r)
+
 		result := db.First(&m, params["id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -135,7 +129,5 @@ func DeleteModalidad(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }

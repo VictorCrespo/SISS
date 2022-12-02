@@ -11,10 +11,9 @@ import (
 
 func GetAlumnos_Programas(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var ap models.Alumnos_Programas
+
 		result := db.Find(&ap)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -33,8 +32,6 @@ func GetAlumnos_Programas(db *gorm.DB) http.HandlerFunc {
 
 func GetAlumnos_programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var ap models.Alumno_Programa
 		params := mux.Vars(r)
@@ -57,10 +54,11 @@ func GetAlumnos_programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 
 func CreateAlumnos_programa(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
+
 		w.WriteHeader(http.StatusCreated)
 
 		var ap models.Alumno_Programa
+
 		err := json.NewDecoder(r.Body).Decode(&ap)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -79,7 +77,6 @@ func CreateAlumnos_programa(db *gorm.DB) http.HandlerFunc {
 
 func UpdateAlumnos_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var ap, apaux models.Alumno_Programa
 		params := mux.Vars(r)
@@ -104,18 +101,15 @@ func UpdateAlumnos_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }
 
 func DeleteAlumnos_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var ap models.Alumno_Programa
-
 		params := mux.Vars(r)
+
 		result := db.First(&ap, "alumno_id = ? AND programa_id = ?", params["alumno_id"], params["programa_id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -141,7 +135,5 @@ func DeleteAlumnos_Programa(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }

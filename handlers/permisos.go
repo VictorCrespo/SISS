@@ -11,10 +11,9 @@ import (
 
 func GetPermisos(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var p models.Permisos
+
 		result := db.Find(&p)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -33,8 +32,6 @@ func GetPermisos(db *gorm.DB) http.HandlerFunc {
 
 func GetPermiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var p models.Permiso
 		params := mux.Vars(r)
@@ -57,10 +54,11 @@ func GetPermiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 
 func CreatePermiso(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
+
 		w.WriteHeader(http.StatusCreated)
 
 		var p models.Permiso
+
 		err := json.NewDecoder(r.Body).Decode(&p)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -79,7 +77,6 @@ func CreatePermiso(db *gorm.DB) http.HandlerFunc {
 
 func UpdatePermiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var p models.Permiso
 		params := mux.Vars(r)
@@ -104,14 +101,11 @@ func UpdatePermiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }
 
 func DeletePermiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var p models.Permiso
 
@@ -135,7 +129,5 @@ func DeletePermiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }

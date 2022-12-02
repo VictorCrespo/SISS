@@ -11,8 +11,6 @@ import (
 
 func GetRoles_Permisos(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var rp models.Roles_Permisos
 		result := db.Find(&rp)
@@ -33,8 +31,6 @@ func GetRoles_Permisos(db *gorm.DB) http.HandlerFunc {
 
 func GetRol_Permiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var rp models.Rol_Permiso
 		params := mux.Vars(r)
@@ -57,7 +53,7 @@ func GetRol_Permiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 
 func CreateRol_Permiso(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
+
 		w.WriteHeader(http.StatusCreated)
 
 		var rp models.Rol_Permiso
@@ -79,7 +75,6 @@ func CreateRol_Permiso(db *gorm.DB) http.HandlerFunc {
 
 func UpdateRol_Permiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var rp, rpaux models.Rol_Permiso
 		params := mux.Vars(r)
@@ -104,18 +99,15 @@ func UpdateRol_Permiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }
 
 func DeleteRol_Permiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var rp models.Rol_Permiso
-
 		params := mux.Vars(r)
+
 		result := db.First(&rp, params["id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -141,7 +133,5 @@ func DeleteRol_Permiso(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }

@@ -11,10 +11,9 @@ import (
 
 func GetUsuarios_Roles(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var ur models.Usuarios_Roles
+
 		result := db.Find(&ur)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -33,8 +32,6 @@ func GetUsuarios_Roles(db *gorm.DB) http.HandlerFunc {
 
 func GetUsuario_Rol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var ur models.Usuario_Rol
 		params := mux.Vars(r)
@@ -57,10 +54,11 @@ func GetUsuario_Rol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 
 func CreateUsuario_Rol(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
+
 		w.WriteHeader(http.StatusCreated)
 
 		var ur models.Usuario_Rol
+
 		err := json.NewDecoder(r.Body).Decode(&ur)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -79,7 +77,6 @@ func CreateUsuario_Rol(db *gorm.DB) http.HandlerFunc {
 
 func UpdateUsuario_Rol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var ur, uraux models.Usuario_Rol
 		params := mux.Vars(r)
@@ -104,18 +101,15 @@ func UpdateUsuario_Rol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }
 
 func DeleteUsuario_Rol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var ur models.Usuario_Rol
-
 		params := mux.Vars(r)
+
 		result := db.First(&ur, params["id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -141,7 +135,5 @@ func DeleteUsuario_Rol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }
