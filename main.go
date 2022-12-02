@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/VictorCrespo/SISS/authentication"
 	"github.com/VictorCrespo/SISS/database"
 	"github.com/VictorCrespo/SISS/routes"
 	"github.com/VictorCrespo/SISS/server"
@@ -15,6 +16,7 @@ func init() {
 	server.LoadEnvVariables()
 	database.ConnectDB()
 	database.SyncDatabase()
+	authentication.KeyReading()
 }
 
 func main() {
