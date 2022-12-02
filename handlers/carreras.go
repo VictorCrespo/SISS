@@ -11,10 +11,9 @@ import (
 
 func GetCarreras(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var c models.Carreras
+
 		result := db.Find(&c)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -33,8 +32,6 @@ func GetCarreras(db *gorm.DB) http.HandlerFunc {
 
 func GetCarrera(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var c models.Carrera
 		params := mux.Vars(r)
@@ -57,10 +54,11 @@ func GetCarrera(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 
 func CreateCarrera(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
+
 		w.WriteHeader(http.StatusCreated)
 
 		var c models.Carrera
+
 		err := json.NewDecoder(r.Body).Decode(&c)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -79,7 +77,6 @@ func CreateCarrera(db *gorm.DB) http.HandlerFunc {
 
 func UpdateCarrera(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var c models.Carrera
 		params := mux.Vars(r)
@@ -104,18 +101,15 @@ func UpdateCarrera(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }
 
 func DeleteCarrera(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var c models.Carrera
-
 		params := mux.Vars(r)
+
 		result := db.First(&c, params["id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -135,7 +129,5 @@ func DeleteCarrera(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }

@@ -11,10 +11,9 @@ import (
 
 func GetRoles(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var ro models.Roles
+
 		result := db.Find(&ro)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -33,8 +32,6 @@ func GetRoles(db *gorm.DB) http.HandlerFunc {
 
 func GetRol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var ro models.Rol
 		params := mux.Vars(r)
@@ -57,7 +54,7 @@ func GetRol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 
 func CreateRol(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
+
 		w.WriteHeader(http.StatusCreated)
 
 		var ro models.Rol
@@ -79,7 +76,6 @@ func CreateRol(db *gorm.DB) http.HandlerFunc {
 
 func UpdateRol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var ro models.Rol
 		params := mux.Vars(r)
@@ -104,18 +100,15 @@ func UpdateRol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }
 
 func DeleteRol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var ro models.Rol
-
 		params := mux.Vars(r)
+
 		result := db.First(&ro, params["id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -135,7 +128,5 @@ func DeleteRol(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }

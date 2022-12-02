@@ -12,10 +12,9 @@ import (
 
 func GetUsuarios(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var u models.Usuarios
+
 		result := db.Find(&u)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -34,8 +33,6 @@ func GetUsuarios(db *gorm.DB) http.HandlerFunc {
 
 func GetUsuario(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var u models.Usuario
 		params := mux.Vars(r)
@@ -58,11 +55,12 @@ func GetUsuario(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 
 func CreateUsuario(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
+
 		w.WriteHeader(http.StatusCreated)
 
 		var u models.Usuario
 		var enc []byte
+
 		err := json.NewDecoder(r.Body).Decode(&u)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -89,7 +87,6 @@ func CreateUsuario(db *gorm.DB) http.HandlerFunc {
 
 func UpdateUsuario(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var u models.Usuario
 		params := mux.Vars(r)
@@ -114,18 +111,15 @@ func UpdateUsuario(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }
 
 func DeleteUsuario(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var u models.Usuario
-
 		params := mux.Vars(r)
+
 		result := db.First(&u, params["id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -145,7 +139,5 @@ func DeleteUsuario(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }

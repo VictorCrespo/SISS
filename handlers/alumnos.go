@@ -11,10 +11,9 @@ import (
 
 func GetAlumnos(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var a models.Alumnos
+
 		result := db.Find(&a)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -33,8 +32,6 @@ func GetAlumnos(db *gorm.DB) http.HandlerFunc {
 
 func GetAlumno(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var a models.Alumno
 		params := mux.Vars(r)
@@ -57,10 +54,11 @@ func GetAlumno(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 
 func CreateAlumno(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
+
 		w.WriteHeader(http.StatusCreated)
 
 		var a models.Alumno
+
 		err := json.NewDecoder(r.Body).Decode(&a)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -79,7 +77,6 @@ func CreateAlumno(db *gorm.DB) http.HandlerFunc {
 
 func UpdateAlumno(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var a models.Alumno
 		params := mux.Vars(r)
@@ -104,14 +101,11 @@ func UpdateAlumno(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }
 
 func DeleteAlumno(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var a models.Alumno
 
@@ -135,7 +129,5 @@ func DeleteAlumno(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }

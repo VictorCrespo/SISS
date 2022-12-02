@@ -11,10 +11,9 @@ import (
 
 func GetDependencias(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var d models.Depedencias
+
 		result := db.Find(&d)
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -33,8 +32,6 @@ func GetDependencias(db *gorm.DB) http.HandlerFunc {
 
 func GetDependencia(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
-		w.WriteHeader(http.StatusOK)
 
 		var d models.Dependencia
 		params := mux.Vars(r)
@@ -57,10 +54,11 @@ func GetDependencia(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 
 func CreateDependecia(db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
+
 		w.WriteHeader(http.StatusCreated)
 
 		var d models.Dependencia
+
 		err := json.NewDecoder(r.Body).Decode(&d)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -79,7 +77,6 @@ func CreateDependecia(db *gorm.DB) http.HandlerFunc {
 
 func UpdateDependecia(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var d models.Dependencia
 		params := mux.Vars(r)
@@ -104,18 +101,15 @@ func UpdateDependecia(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }
 
 func DeleteDependencia(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("content-type", "application/json")
 
 		var d models.Dependencia
-
 		params := mux.Vars(r)
+
 		result := db.First(&d, params["id"])
 		if result.Error != nil {
 			w.WriteHeader(http.StatusBadRequest)
@@ -135,7 +129,5 @@ func DeleteDependencia(r *mux.Router, db *gorm.DB) http.HandlerFunc {
 			w.Write([]byte(result.Error.Error()))
 			return
 		}
-
-		w.WriteHeader(http.StatusOK)
 	}
 }
