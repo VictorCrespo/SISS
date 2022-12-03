@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/VictorCrespo/SISS/authentication"
 	"github.com/VictorCrespo/SISS/database"
@@ -23,5 +24,16 @@ func main() {
 
 	r := mux.NewRouter()
 	routes.RegisterRoutes(r, database.DB)
-	http.ListenAndServe(os.Getenv("PORT"), r)
+
+	srv := &http.Server{
+		Handler:      r,
+		Addr:         os.Getenv("PORT"),
+		WriteTimeout: 15 * time.Second,
+		ReadTimeout:  15 * time.Second,
+	}
+
+	err := srv.ListenAndServe()
+	if err != nil {
+		panic(err.Error())
+	}
 }
