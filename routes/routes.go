@@ -12,9 +12,12 @@ import (
 
 func RegisterRoutes(r *mux.Router, db *gorm.DB) {
 
+	public := r.NewRoute().Subrouter()
 	private := r.NewRoute().Subrouter()
 
+	public.Use(middleware.AuthJwtToken)
 	private.Use(middleware.AuthJwtToken)
+	private.Use(middleware.Permissions)
 
 	private.HandleFunc("/actividades", handlers.GetActividades(db)).Methods(http.MethodGet)
 	private.HandleFunc("/actividades/{id}", handlers.GetActividad(r, db)).Methods(http.MethodGet)
