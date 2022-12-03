@@ -9,7 +9,7 @@ import (
 	"github.com/golang-jwt/jwt/v4/request"
 )
 
-func AuthJwtToken(h http.Handler) http.Handler {
+func AuthJwtToken(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("content-type", "application/json")
 
@@ -30,12 +30,21 @@ func AuthJwtToken(h http.Handler) http.Handler {
 			return
 		}
 
-		if token.Valid {
-			h.ServeHTTP(w, r)
-		} else {
+		if !token.Valid {
 			w.WriteHeader(http.StatusUnauthorized)
 			w.Write([]byte("Your token is not valid"))
 			return
+
 		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func Permissions(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		next.ServeHTTP(w, r)
+
 	})
 }
