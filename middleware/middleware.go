@@ -13,7 +13,7 @@ func AuthJwtToken(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("content-type", "application/json")
 
-		auth := w.Header().Get("Authorization")
+		auth := r.Header.Get("Authorization")
 
 		if auth == "" {
 			w.WriteHeader(http.StatusUnauthorized)
